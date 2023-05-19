@@ -9,7 +9,7 @@ public class HealthPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        HealthManager healthManager = other.GetComponent<HealthManager>();
+        HealthManager healthManager = FindObjectOfType<HealthManager>();
         if (healthManager != null)
         {
             healthManager.AddHealth(healthAmount);

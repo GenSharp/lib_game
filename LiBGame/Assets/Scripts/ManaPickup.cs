@@ -11,7 +11,7 @@ public class ManaPickup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            ManaSystem manaSystem = other.GetComponent<ManaSystem>();
+            ManaSystem manaSystem = FindObjectOfType<ManaSystem>();
             if (manaSystem != null)
             {
                 manaSystem.AddMana(manaAmount);
