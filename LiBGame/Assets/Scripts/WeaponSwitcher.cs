@@ -12,7 +12,7 @@ public class WeaponSwitcher : MonoBehaviour
     void Start()
     {
         currentWeaponIndex = 0;
-        weapons[currentWeaponIndex].SetActive(true);
+        ActivateCurrentWeapon();
     }
 
     // Update is called once per frame
@@ -22,22 +22,53 @@ public class WeaponSwitcher : MonoBehaviour
 
         if (scrollInput > 0f)
         {
-            weapons[currentWeaponIndex].SetActive(false);
+            DeactivateCurrentWeapon();
             currentWeaponIndex = (currentWeaponIndex + 1) % weapons.Length;
-            weapons[currentWeaponIndex].SetActive(true);
+            ActivateCurrentWeapon();
         }
-
         else if (scrollInput < 0f)
         {
-            weapons[currentWeaponIndex].SetActive(false);
-            currentWeaponIndex--;
+            DeactivateCurrentWeapon();
+            currentWeaponIndex = (currentWeaponIndex - 1 + weapons.Length) % weapons.Length;
+            ActivateCurrentWeapon();
+        }
+    }
 
-            if (currentWeaponIndex < 0)
-            {
-                currentWeaponIndex = weapons.Length - 1;
-            }
-
+    private void ActivateCurrentWeapon()
+    {
+        if (weapons[currentWeaponIndex] != null)
+        {
             weapons[currentWeaponIndex].SetActive(true);
+        }
+        else
+        {
+            SkipDestroyedWeapons(1);
+            ActivateCurrentWeapon();
+        }
+    }
+
+    private void DeactivateCurrentWeapon()
+    {
+        if (weapons[currentWeaponIndex] != null)
+        {
+            weapons[currentWeaponIndex].SetActive(false);
+        }
+    }
+
+    private void SkipDestroyedWeapons(int skipCount)
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            int index = (currentWeaponIndex + i) % weapons.Length;
+            if (weapons[index] != null)
+            {
+                skipCount--;
+                if (skipCount <= 0)
+                {
+                    currentWeaponIndex = index;
+                    return;
+                }
+            }
         }
     }
 }
