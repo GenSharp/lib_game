@@ -1672,10 +1672,10 @@ Transform:
   m_Father: {fileID: 492883975}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
-=======
+ HEAD
+
  BT
->>>>>>> 301101abcbdf65f754acf69216d7c09b13df4e1c
+ 301101abcbdf65f754acf69216d7c09b13df4e1c
 --- !u!1001 &1557789501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1745,8 +1745,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cdd238ac3720eb47867013f0828ec89, type: 3}
-<<<<<<< HEAD
-=======
+ HEAD
+
 
 --- !u!1 &1559429986
 GameObject:
@@ -1860,7 +1860,7 @@ Transform:
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
  main
->>>>>>> 301101abcbdf65f754acf69216d7c09b13df4e1c
+ 301101abcbdf65f754acf69216d7c09b13df4e1c
 --- !u!1 &1601947826
 GameObject:
   m_ObjectHideFlags: 0
