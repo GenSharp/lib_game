@@ -36,10 +36,12 @@ public class PlayerCharacter : MonoBehaviour
 
     private void ApplyClassAttributes()
     {
+        bool firstWeaponEnabled = false;
+
         switch (selectedClass)
         {
             case CharacterClass.Warrior:
-                weaponAccessibility.EnableWeapon(swordWeapon);
+                weaponAccessibility.EnableWeapon(swordWeapon, ref firstWeaponEnabled);
                 weaponAccessibility.DisableWeapon(staffWeapon);
                 weaponAccessibility.DisableWeapon(handsWeapon);
                 weaponAccessibility.DisableWeapon(bookWeapon);
@@ -47,8 +49,8 @@ public class PlayerCharacter : MonoBehaviour
 
             case CharacterClass.Mage:
                 weaponAccessibility.DisableWeapon(swordWeapon);
-                weaponAccessibility.EnableWeapon(staffWeapon);
-                weaponAccessibility.EnableWeapon(handsWeapon);
+                weaponAccessibility.EnableWeapon(staffWeapon, ref firstWeaponEnabled);
+                weaponAccessibility.EnableWeapon(handsWeapon, ref firstWeaponEnabled);
                 weaponAccessibility.DisableWeapon(bookWeapon);
                 break;
 
@@ -56,7 +58,7 @@ public class PlayerCharacter : MonoBehaviour
                 weaponAccessibility.DisableWeapon(swordWeapon);
                 weaponAccessibility.DisableWeapon(staffWeapon);
                 weaponAccessibility.DisableWeapon(handsWeapon);
-                weaponAccessibility.EnableWeapon(bookWeapon);
+                weaponAccessibility.EnableWeapon(bookWeapon, ref firstWeaponEnabled);
                 break;
         }
     }
