@@ -8,15 +8,15 @@ public class Enemy : MonoBehaviour
     public int maxHealth = 100;
     private int currentHealth;
 
-    private SpriteRenderer spriteRenderer;
+    private MeshRenderer meshRenderer;
     private Color originalColor;
     private Color damageColor = Color.red;
-    private float colorChangeDuration = 0.2f;
+    private float colorChangeDuration = 0.1f;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        originalColor = spriteRenderer.color;
+        meshRenderer = GetComponent<MeshRenderer>();
+        originalColor = meshRenderer.material.color;
     }
 
     // Start is called before the first frame update
@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour
     {
         currentHealth -= damageAmount;
         StartCoroutine(DamageEffect());
+        Debug.Log(currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -50,8 +51,8 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator DamageEffect()
     {
-        spriteRenderer.color = damageColor;
+        meshRenderer.material.color = damageColor;
         yield return new WaitForSeconds(colorChangeDuration);
-        spriteRenderer.color = originalColor;
+        meshRenderer.material.color = originalColor;
     }
 }

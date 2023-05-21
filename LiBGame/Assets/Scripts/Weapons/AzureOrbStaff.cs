@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AzureOrbStaff : MonoBehaviour
 {
-
     public float attackInterval = 0.28f;
     private float lastAttackTime = 0f;
 
@@ -12,13 +11,13 @@ public class AzureOrbStaff : MonoBehaviour
     public Transform orbSpawnPoint;
     private float orbSpeed = 10f;
 
-    public Transform cameraLOL;
-
+    private MouseLook mouseLook;
     private ManaSystem manaSystem;
 
     // Start is called before the first frame update
     private void Start()
     {
+        mouseLook = FindObjectOfType<MouseLook>();
         manaSystem = FindObjectOfType<ManaSystem>();
     }
 
@@ -34,22 +33,12 @@ public class AzureOrbStaff : MonoBehaviour
 
     void FireWeapon()
     {
-        if (FindObjectOfType<ManaSystem>().UseMana(1))
+        if (manaSystem.UseMana(1))
         {
-            if (Physics.Raycast(cameraLOL.transform.position, cameraLOL.transform.forward, out RaycastHit hit, 30f))
-            {
-                orbSpawnPoint.LookAt(hit.point);
-            }
-
-            else
-            {
-                Vector3 newTargetPos = cameraLOL.transform.position + (cameraLOL.transform.forward * 30f);
-                newTargetPos.y -= 0.2f;
-                orbSpawnPoint.LookAt(newTargetPos);
-            }
-
-            GameObject orb = Instantiate(orbProjectile, orbSpawnPoint.position, orbSpawnPoint.rotation);
-            orb.GetComponent<Rigidbody>().velocity = orb.transform.forward * orbSpeed;
+            Quaternion projectileRotation = Quaternion.Euler(mouseLook.GetXRotation(), mouseLook.GetYRotation(), 0f);
+            GameObject orb = Instantiate(orbProjectile, orbSpawnPoint.position, projectileRotation);
+            Rigidbody orbRigidbody = orb.GetComponent<Rigidbody>();
+            orbRigidbody.velocity = orb.transform.forward * orbSpeed;
 
             lastAttackTime = Time.time;
         }
