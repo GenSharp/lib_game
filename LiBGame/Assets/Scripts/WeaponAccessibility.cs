@@ -6,12 +6,22 @@ public class WeaponAccessibility : MonoBehaviour
 {
     private List<GameObject> accessibleWeapons = new List<GameObject>();
 
-    public void EnableWeapon(GameObject weapon)
+    public void EnableWeapon(GameObject weapon, ref bool firstWeaponEnabled)
     {
         if (weapon != null)
         {
             accessibleWeapons.Add(weapon);
-            weapon.SetActive(true);
+
+            if (!firstWeaponEnabled)
+            {
+                weapon.SetActive(true);
+                firstWeaponEnabled = true;
+            }
+
+            else
+            {
+                weapon.SetActive(false);
+            }
         }
     }
 
