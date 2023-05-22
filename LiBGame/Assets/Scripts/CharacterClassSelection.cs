@@ -20,6 +20,10 @@ public class CharacterClassSelection : MonoBehaviour
 
     public TextMeshProUGUI selectedClassText;
 
+    public GameObject warriorModel;
+    public GameObject mageModel;
+    public GameObject clericModel;
+
     private CharacterClass selectedClass;
 
     // Start is called before the first frame update
@@ -31,6 +35,7 @@ public class CharacterClassSelection : MonoBehaviour
 
         selectedClass = CharacterClass.Warrior;
         UpdateSelectedClassText();
+        UpdateCharacterModels();
     }
 
     private void UpdateSelectedClassText()
@@ -43,5 +48,13 @@ public class CharacterClassSelection : MonoBehaviour
         this.selectedClass = selectedClass;
         ClassSelectionManager.Instance.SetSelectedClass(selectedClass);
         UpdateSelectedClassText();
+        UpdateCharacterModels();
+    }
+
+    private void UpdateCharacterModels()
+    {
+        warriorModel.SetActive(selectedClass == CharacterClass.Warrior);
+        mageModel.SetActive(selectedClass == CharacterClass.Mage);
+        clericModel.SetActive(selectedClass == CharacterClass.Cleric);
     }
 }
