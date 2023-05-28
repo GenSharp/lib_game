@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void ClassSelection()
+    {
+        SceneManager.LoadScene("ClassSelection");
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene("SampleScene");
