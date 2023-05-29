@@ -26,7 +26,9 @@ public class SwordWeapon : MonoBehaviour
 
         animator.SetBool("Swing", true);
 
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        float animationDuration = 0.18f;
+
+        yield return new WaitForSeconds(animationDuration);
 
         animator.SetBool("Swing", false);
 
