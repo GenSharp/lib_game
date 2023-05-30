@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     private Color damageColor = Color.red;
     private float colorChangeDuration = 0.1f;
 
+    private EnemyCounter enemyCounter;
+
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -23,6 +25,8 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+
+        enemyCounter = FindObjectOfType<EnemyCounter>();
     }
 
     // Update is called once per frame
@@ -45,7 +49,8 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        //dodati nesto ovdje?
+        enemyCounter.EnemyKilled();
+
         Destroy(gameObject);
     }
 
