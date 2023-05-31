@@ -19,7 +19,7 @@ public class LightningHands : MonoBehaviour
     {
         manaSystem = FindObjectOfType<ManaSystem>();
         lightningCollider.SetActive(false);
-        lightningColliderParent = GameObject.Find("Hands");
+        lightningColliderParent = GameObject.Find("RukeCarobnjakaBolje");
     }
 
     // Update is called once per frame
@@ -36,11 +36,13 @@ public class LightningHands : MonoBehaviour
         canFire = false;
         manaSystem.UseMana(manaCost);
 
-        GameObject lightningCollider = lightningColliderParent.transform.GetChild(0).gameObject;
+        GameObject lightningCollider = lightningColliderParent.transform.GetChild(2).gameObject;
         lightningCollider.SetActive(true);
 
-        lightningCollider.transform.position = lightningColliderParent.transform.position;
-        lightningCollider.transform.rotation = lightningColliderParent.transform.rotation;
+        lightningCollider.transform.position = lightningColliderParent.transform.position + lightningColliderParent.transform.forward * -1f + lightningColliderParent.transform.right * 1f;
+
+        Quaternion desiredRotation = lightningColliderParent.transform.rotation * Quaternion.Euler(0f, 90f, 0f);
+        lightningCollider.transform.rotation = desiredRotation;
 
         yield return new WaitForSeconds(fireRate);
 
