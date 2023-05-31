@@ -16,47 +16,60 @@ public class Enemy : MonoBehaviour
 
     private EnemyCounter enemyCounter;
 
-    private Animator animator;
-    private Transform target;
+    private Transform player;
     private NavMeshAgent agent;
-    public LayerMask isPlayer;
-    public float attackRange = 2f;
-    public bool playerInAttackRange;
-    private bool alreadyAttacked;
-    public float timeBetweenAttacks = 2f;
-    private float rotationSpeed = 10f;
+    private Animator animator;
+    private bool isAttacking;
+    private bool isDead = false;
+    public float attackRange = 3f;
 
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         originalColor = meshRenderer.material.color;
 
-        target = GameObject.Find("Player").transform;
-        animator = GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
     private void Start()
     {
         currentHealth = maxHealth;
-
         enemyCounter = FindObjectOfType<EnemyCounter>();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, isPlayer);
-
-        if (playerInAttackRange)
+        if (isDead)
         {
+            return;
+        }
+
+        if (currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= attackRange)
+        {
+            StopMoving();
             AttackPlayer();
         }
 
         else
         {
-            ChasePlayer();
+            if (agent.isStopped)
+            {
+                ResumeMoving();
+            }
+
+            MoveToPlayer();
         }
     }
 
@@ -74,8 +87,10 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        isDead = true;
         enemyCounter.EnemyKilled();
         animator.SetBool("Death", true);
+        agent.enabled = false;
         Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
     }
 
@@ -86,34 +101,62 @@ public class Enemy : MonoBehaviour
         meshRenderer.material.color = originalColor;
     }
 
-    private void ChasePlayer()
+    private void MoveToPlayer()
     {
+        agent.SetDestination(player.position);
         animator.SetBool("Running", true);
-        agent.SetDestination(target.position);
+        animator.SetBool("Attacking", false);
+    }
+
+    private void StopMoving()
+    {
+        agent.isStopped = true;
+        animator.SetBool("Running", false);
+        animator.SetBool("Attacking", false);
+    }
+
+    private void ResumeMoving()
+    {
+        agent.isStopped = false;
+        animator.SetBool("Running", true);
+        animator.SetBool("Attacking", false);
     }
 
     private void AttackPlayer()
     {
+        agent.isStopped = true;
+        animator.SetBool("Running", false);
         animator.SetBool("Attacking", true);
-        agent.SetDestination(transform.position);
-        Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        if (!alreadyAttacked)
+        if (!isAttacking)
         {
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-
-            HealthManager healthManager = target.GetComponent<HealthManager>();
-            if (healthManager != null)
-            {
-                healthManager.TakeDamage(10);
-            }
+            isAttacking = true;
+            StartCoroutine(ResetAttack());
         }
     }
 
-    private void ResetAttack()
+    private IEnumerator ResetAttack()
     {
-        alreadyAttacked = false;
+        yield return new WaitForSeconds(2f);
+
+        if (player != null)
+        {
+            CharacterController playerController = player.GetComponent<CharacterController>();
+            if (playerController != null)
+            {
+                if (playerController.collisionFlags == CollisionFlags.CollidedSides ||
+                    playerController.collisionFlags == CollisionFlags.CollidedAbove ||
+                    playerController.collisionFlags == CollisionFlags.CollidedBelow)
+                {
+                    HealthManager healthManager = FindObjectOfType<HealthManager>();
+                    if (healthManager != null)
+                    {
+                        healthManager.TakeDamage(10);
+                    }
+                }
+            }
+        }
+
+        isAttacking = false;
     }
 }
