@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     private bool isAttacking;
     private bool isDead = false;
     public float attackRange = 3f;
+    public float strikeRate = 0.8f;
 
     private void Awake()
     {
@@ -141,17 +142,24 @@ public class Enemy : MonoBehaviour
 
         if (player != null)
         {
-            CharacterController playerController = player.GetComponent<CharacterController>();
-            if (playerController != null)
+            // Calculate the strike chance
+            float strikeChance = Random.value;  // Generate a random value between 0 and 1
+
+            // Check if the strike chance is less than or equal to the desired strike rate
+            if (strikeChance <= strikeRate)
             {
-                if (playerController.collisionFlags == CollisionFlags.CollidedSides ||
-                    playerController.collisionFlags == CollisionFlags.CollidedAbove ||
-                    playerController.collisionFlags == CollisionFlags.CollidedBelow)
+                CharacterController playerController = player.GetComponent<CharacterController>();
+                if (playerController != null)
                 {
-                    HealthManager healthManager = FindObjectOfType<HealthManager>();
-                    if (healthManager != null)
+                    if (playerController.collisionFlags == CollisionFlags.CollidedSides ||
+                        playerController.collisionFlags == CollisionFlags.CollidedAbove ||
+                        playerController.collisionFlags == CollisionFlags.CollidedBelow)
                     {
-                        healthManager.TakeDamage(10);
+                        HealthManager healthManager = FindObjectOfType<HealthManager>();
+                        if (healthManager != null)
+                        {
+                            healthManager.TakeDamage(10);
+                        }
                     }
                 }
             }
