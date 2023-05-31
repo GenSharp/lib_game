@@ -316,6 +316,7 @@ MonoBehaviour:
   playerTransform: {fileID: 492883975}
   fireRate: 0.5
   manaCost: 10
+  lightningEffectPrefab: {fileID: 4345476745242996290, guid: 3de18163283ba1548aabf999623f4710, type: 3}
 --- !u!1 &375297968
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,6 +1414,7 @@ MonoBehaviour:
   playerTransform: {fileID: 492883975}
   fireRate: 0.5
   manaCost: 10
+  lightningEffectPrefab: {fileID: 0}
 --- !u!1 &822119897
 GameObject:
   m_ObjectHideFlags: 0
