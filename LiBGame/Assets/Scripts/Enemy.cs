@@ -88,11 +88,14 @@ public class Enemy : MonoBehaviour
 
     private void ChasePlayer()
     {
+        animator.SetBool("Running", true);
         agent.SetDestination(target.position);
     }
 
     private void AttackPlayer()
     {
+        animator.SetBool("Attacking", true);
+        agent.SetDestination(transform.position);
         Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
