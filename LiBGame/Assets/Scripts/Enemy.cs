@@ -49,12 +49,6 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        if (currentHealth <= 0)
-        {
-            Die();
-            return;
-        }
-
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (distanceToPlayer <= attackRange)
@@ -82,17 +76,26 @@ public class Enemy : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
     }
 
-    private void Die()
+    private IEnumerator Die()
     {
         isDead = true;
         enemyCounter.EnemyKilled();
         animator.SetBool("Death", true);
         agent.enabled = false;
-        Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
+
+        Collider enemyCollider = GetComponent<Collider>();
+        if (enemyCollider != null)
+        {
+            enemyCollider.enabled = false;
+        }
+
+        yield return new WaitForSeconds(3f);
+
+        Destroy(gameObject);
     }
 
     private IEnumerator DamageEffect()
@@ -142,10 +145,8 @@ public class Enemy : MonoBehaviour
 
         if (player != null)
         {
-            // Calculate the strike chance
-            float strikeChance = Random.value;  // Generate a random value between 0 and 1
+            float strikeChance = Random.value;
 
-            // Check if the strike chance is less than or equal to the desired strike rate
             if (strikeChance <= strikeRate)
             {
                 CharacterController playerController = player.GetComponent<CharacterController>();

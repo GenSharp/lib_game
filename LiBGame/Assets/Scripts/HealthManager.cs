@@ -15,12 +15,12 @@ public class HealthManager : MonoBehaviour
     private void Start()
     {
         UpdateHealthText();
+        Shop.OnHealthUpgrade += UpgradeMaxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
+        Shop.OnHealthUpgrade -= UpgradeMaxHealth;
     }
 
     public bool TakeDamage(int damageAmount)
@@ -44,6 +44,11 @@ public class HealthManager : MonoBehaviour
     void UpdateHealthText()
     {
         healthText.SetText(currentHealth.ToString());
+    }
+
+    private void UpgradeMaxHealth(int upgradeAmount)
+    {
+        maxHealth += upgradeAmount;
     }
 
     void Die()

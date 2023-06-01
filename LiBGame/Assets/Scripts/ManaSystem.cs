@@ -20,6 +20,12 @@ public class ManaSystem : MonoBehaviour
     {
         lastManaUseTime = Time.time;
         UpdateManaText();
+        Shop.OnManaUpgrade += UpgradeMaxMana;
+    }
+
+    private void OnDestroy()
+    {
+        Shop.OnManaUpgrade -= UpgradeMaxMana;
     }
 
     // Update is called once per frame
@@ -53,5 +59,10 @@ public class ManaSystem : MonoBehaviour
     void UpdateManaText()
     {
         manaText.SetText(currentMana.ToString());
+    }
+
+    private void UpgradeMaxMana(int upgradeAmount)
+    {
+        maxMana += upgradeAmount;
     }
 }
