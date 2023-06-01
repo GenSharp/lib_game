@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ClassSelection.unity
     guid: bed1990bf23f9ad47acfd30c63dbe06a
   - enabled: 1
+    path: Assets/Scenes/Scena1.unity
+    guid: 80a147258d094ee4790df20d36da7e42
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
