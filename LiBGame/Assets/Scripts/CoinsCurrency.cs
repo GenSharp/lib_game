@@ -12,6 +12,11 @@ public class CoinsCurrency : MonoBehaviour
 
     public int coinCount = 0;
 
+    private void Awake()
+    {
+        UpdateCoinCountText();
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -31,6 +36,12 @@ public class CoinsCurrency : MonoBehaviour
     public void AddCoinsForEnemyKilled()
     {
         coinCount += coinsPerEnemy;
+        UpdateCoinCountText();
+    }
+
+    public void DeductCoins(int amount)
+    {
+        coinCount -= amount;
         UpdateCoinCountText();
     }
 
