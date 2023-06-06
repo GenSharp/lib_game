@@ -33,7 +33,7 @@ public class HealthManaSpawner : MonoBehaviour
                 currentManaCrystal = Instantiate(manaCrystal, spawnPoint2.position, spawnPoint2.rotation);
             }
 
-            yield return new WaitForSeconds(60f);
+            yield return new WaitForSeconds(20f);
         }
     }
 }
