@@ -42,7 +42,7 @@ public class Shop : MonoBehaviour
     {
         if (coinsCurrency.coinCount >= healthUpgradePrice)
         {
-            coinsCurrency.coinCount -= healthUpgradePrice;
+            coinsCurrency.DeductCoins(healthUpgradePrice);
             healthUpgradePrice += 25;
             UpdateUpgradePricesText();
             OnHealthUpgrade?.Invoke(25);
@@ -53,7 +53,7 @@ public class Shop : MonoBehaviour
     {
         if (coinsCurrency.coinCount >= manaUpgradePrice)
         {
-            coinsCurrency.coinCount -= manaUpgradePrice;
+            coinsCurrency.DeductCoins(manaUpgradePrice);
             manaUpgradePrice += 25;
             UpdateUpgradePricesText();
             OnManaUpgrade?.Invoke(25);

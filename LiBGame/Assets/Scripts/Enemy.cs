@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour
     public float attackRange = 3f;
     public float strikeRate = 0.8f;
 
+    private CoinsCurrency coinsCurrency;
+
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -39,6 +41,7 @@ public class Enemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         enemyCounter = FindObjectOfType<EnemyCounter>();
+        coinsCurrency = FindObjectOfType<CoinsCurrency>();
     }
 
     // Update is called once per frame
@@ -94,6 +97,8 @@ public class Enemy : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3f);
+
+        coinsCurrency.AddCoinsForEnemyKilled();
 
         Destroy(gameObject);
     }
