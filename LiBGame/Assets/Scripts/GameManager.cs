@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Scena1");
     }
+    public void MainScreen()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
 
     public void QuitGame()
     {
